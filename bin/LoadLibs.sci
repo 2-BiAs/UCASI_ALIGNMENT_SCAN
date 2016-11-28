@@ -3,6 +3,7 @@ function listOutput = LoadLibs()
     [output, bOK] = dos("FOR /D %I IN (BIN\*) DO @ECHO %~nxI");
     output = stripblanks(output);
     listLibs = list();
+    
     for i=1:size(output,1)
         try
             listLibs($+1) = lib("BIN\" + output(i));
@@ -12,4 +13,5 @@ function listOutput = LoadLibs()
         end
     end
     listOutput = listLibs;
+   
 endfunction

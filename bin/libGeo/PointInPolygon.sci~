@@ -11,7 +11,18 @@ function [bIsInside] = PointInPolygon(pgInput, vPoint)
 //
 //*****************************************************************************
 
-iN = size(pgInput, 1)
+//********************************************
+// show the polygon
+do_the_plot = 0
+
+if(do_the_plot)
+    scf(9999);
+    // it is assumed that this is a closed polygon
+    plot2d(xtemp,ytemp)
+end
+//********************************************
+
+iN = size(pgInput, 2)
 
 
 bIsInside = %F
@@ -20,7 +31,7 @@ i = 1
 while  i <= iN
 
     if ((((pgInput(i, 2) <= vPoint(2)) & (vPoint(2) < pgInput(j, 2)))|((pgInput(j, 2) <= vPoint(2)) & (vPoint(2) < pgInput(i, 2)))) & ..
-       (vPoint(1) < ((pgInput(j, 1) - pgInput(i, 1))/(pgInput(j, 2) - pgInput(i, 2))) * (vPoint(2) - pgInput(i, 2)) + pgInput(i, 1)))
+       (vPoint(1) < ((pgInput(j, 1) - pgInput(i, 1))/(pgInput(j, 2) - pgInput(i, 2))) * (vPoint(1) - pgInput(i, 2)) + pgInput(i, 1)))
 
           bIsInside = ~bIsInside;
     end

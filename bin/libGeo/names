@@ -1,3 +1,8 @@
+GetBoundingBox
 GetNorms
 GetSags
+New_Mesh
+PointInPolygon
+PolyGrid
+PolygonMask
 SurfaceParameters

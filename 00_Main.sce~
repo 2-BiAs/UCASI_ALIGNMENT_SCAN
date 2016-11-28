@@ -1,0 +1,13 @@
+
+exec('01_Initialize.sce');
+
+sp = SurfaceParameters(100, 0, [0])
+
+exec('02_GenScanBound.sce');
+
+z = GetSags(mGridPoints, sp)
+
+param3d1(mGridPoints(:,1), mGridPoints(:,2), );
+//axesMain = gca();
+//axesMain.isoview = "on"
+

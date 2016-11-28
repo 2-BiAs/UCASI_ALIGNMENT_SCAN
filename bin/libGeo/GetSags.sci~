@@ -18,11 +18,6 @@ function mOutput = GetSags(mPoints, spParams)
         end
     end
     
-    //Set Surface Parameters
-    fXs = 0;
-    fYs = 0;
-    fConicConstant = spParams.fCC;
-    
     //Build Conic Equation 
     sConic = 'z = (x.^2 - 2 * x * fXs + fXs^2 * ones(x) + y.^2 - 2 * y * fYs + fYs^2 * ones(y)) .*...
     (R * (ones(x) + sqrt(ones(x) - (1 + fConicConstant) * (x.^2 - 2 * x * fXs + fXs^2 * ones(x) + y.^2 - 2 * y * fYs + fYs^2 * ones(y)) / R^2))) .^ (-1) ';
@@ -35,6 +30,6 @@ function mOutput = GetSags(mPoints, spParams)
     
     format('v', 10);
     
-    mOutput = Z(x, y, spParams.fROC);
+    mOutput = Z(x, mPoints(:,2), spParams.fROC);
     
 endfunction

@@ -1,9 +1,8 @@
 
 exec('01_Initialize.sce');
 
-//sp = SurfaceParameters(100, 0, [0])
-//z = GetSags([-5:.1:5, -5:.1:5], sp)
+exec('02_GenScanBound.sce');
 
-[X Y] = ndgrid([-5:1:5], [-5:1:5]);
 
-P = GridToList(X, Y)
+
+
