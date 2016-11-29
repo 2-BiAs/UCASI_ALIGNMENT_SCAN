@@ -1,6 +1,7 @@
 GetBoundingBox
 GetNorms
 GetSags
+New_Grid
 New_Mesh
 PointInPolygon
 PolyGrid

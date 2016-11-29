@@ -31,7 +31,7 @@ function axOutput = PlotTriMesh(TriMesh)
      
     
     eSurf.color_flag=1; //color according to z
-    eSurf.color_mode=-2;  //remove the facets boundary by setting color_mode to white color
+    //eSurf.color_mode=-2;  //remove the facets boundary by setting color_mode to white color
 //    eSurf.color_flag=2; //color according to given colors
 //    eSurf.color_mode = -1; // put the facets boundary back by setting
     

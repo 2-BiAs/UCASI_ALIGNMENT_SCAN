@@ -23,11 +23,11 @@ function meshOutput = New_Mesh(varargin)
             end
         end
         
-        mVertices = GridToList(varargin(1).mX, varargin(1).mY)
-
-        meshOutput.mVertices = mVertices;
+        mVertices = GridToList
+        
+        meshOutput.mVertices = varargin(1).mVertices;
         meshOutput.iIndices = iTriBuffer;
-
+        
     case 2;
         meshOutput.mVertices = varargin(1);
         meshOutput.iIndices = varargin(2);

@@ -10,36 +10,28 @@ function meshOutput = PolyGrid(pmListPolys, fSpacingNom)
     rectBoundMain = GetBoundingBox(plCombinedMasks);
     clear plCombinedMasks;
     
-    iColumnCount = int(rectBoundMain(2,1) / fSpacingNom);
-    iRowCount = int(rectBoundMain(2,2) / fSpacingNom);
+    gridTemp = New_Grid(rectBoundMain, fSpacingNom, "STAGGERED");
     
-    fGridLeft = rectBoundMain(1,1);
-    fGridRight = rectBoundMain(1,1) + rectBoundMain(2,1);
-    
-    fGridTop = rectBoundMain(1,2);
-    fGridBottom = rectBoundMain(1,2) - rectBoundMain(2,2);
-    
-    fX = linspace(fGridLeft, fGridRight, iColumnCount);
-    fY = linspace(fGridTop, fGridBottom, iRowCount);
-    
-    //mprintf("\nGenerate starting grid, and call GridToList.\n");
-    //pause
-    [X, Y] = ndgrid(fX, fY);
-    mTempGrid = GridToList(X, Y);
+    mTempGrid = GridToList(gridTemp.mX, gridTemp.mY);
     
     iTriBuffer = [];
     
-    for i = 0:iRowCount - 1
-        for j = 1:iColumnCount
-            iTriBuffer($+1, 1) = i * iColumnCount + j;
-            iTriBuffer($, 2) = (i + 1) * iColumnCount + j;
-            iTriBuffer($, 3) = i * iColumnCount + j + 1;
-            
-            iTriBuffer($+1, 1) = (i + 1) * iColumnCount + j + 1;
-            iTriBuffer($, 2) = i * iColumnCount + j + 1;
-            iTriBuffer($, 3) = (i + 1) * iColumnCount + j;
-        end
-    end
+//    for i = 0:iRowCount - 1
+//        for j = 1:iColumnCount
+//            iTriBuffer($+1, 1) = i * iColumnCount + j;
+//            iTriBuffer($, 2) = i * iColumnCount + j + 1;
+//            iTriBuffer($, 3) = (i + 1) * iColumnCount + j;
+//            
+//            iTriBuffer($+1, 1) = (i + 1) * iColumnCount + j + 1;
+//            iTriBuffer($, 2) = (i + 1) * iColumnCount + j;
+//            iTriBuffer($, 3) = i * iColumnCount + j + 1;
+//        end
+//    end
+    
+    
+    
+    
+    meshGrid = New_Mesh(mTempGrid, )
     
     iTriCount = size(iTriBuffer, 1);
     
@@ -78,10 +70,18 @@ function meshOutput = PolyGrid(pmListPolys, fSpacingNom)
     for i = 1:size(mTempGrid,1)
         for j = 1:length(iIndexBuffer)
             if iIndexBuffer(j) == i then
-                iIndexLUT(i) = iIndexBuffer(i);
+                iIndexLUT(i) = j;
+                break;
+            else
+                iIndexLUT(i) = 0;
             end
         end
+    end
     
+    for i = 1:size(iMaskedTriBuffer,1)
+        iMaskedTriBuffer(i,1) = iIndexLUT(iMaskedTriBuffer(i,1));
+        iMaskedTriBuffer(i,2) = iIndexLUT(iMaskedTriBuffer(i,2));
+        iMaskedTriBuffer(i,3) = iIndexLUT(iMaskedTriBuffer(i,3));
     end
     
     meshOutput.iIndices = iMaskedTriBuffer;

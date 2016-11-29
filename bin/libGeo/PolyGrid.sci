@@ -10,47 +10,20 @@ function meshOutput = PolyGrid(pmListPolys, fSpacingNom)
     rectBoundMain = GetBoundingBox(plCombinedMasks);
     clear plCombinedMasks;
     
-    iColumnCount = int(rectBoundMain(2,1) / fSpacingNom);
-    iRowCount = int(rectBoundMain(2,2) / fSpacingNom);
+    gridTemp = New_Grid(rectBoundMain, fSpacingNom, "STAGGERED");
     
-    fGridLeft = rectBoundMain(1,1);
-    fGridRight = rectBoundMain(1,1) + rectBoundMain(2,1);
+    meshTemp = New_Mesh(gridTemp);
     
-    fGridTop = rectBoundMain(1,2);
-    fGridBottom = rectBoundMain(1,2) - rectBoundMain(2,2);
+    iTriCount = size(meshTemp.iIndices, 1);
     
-    fX = linspace(fGridLeft, fGridRight, iColumnCount);
-    fY = linspace(fGridTop, fGridBottom, iRowCount);
-    
-    //mprintf("\nGenerate starting grid, and call GridToList.\n");
-    //pause
-    [X, Y] = ndgrid(fX, fY);
-    mTempGrid = GridToList(X, Y);
-    
-    iTriBuffer = [];
-    
-    for i = 0:iRowCount - 1
-        for j = 1:iColumnCount
-            iTriBuffer($+1, 1) = i * iColumnCount + j;
-            iTriBuffer($, 2) = i * iColumnCount + j + 1;
-            iTriBuffer($, 3) = (i + 1) * iColumnCount + j;
-            
-            iTriBuffer($+1, 1) = (i + 1) * iColumnCount + j + 1;
-            iTriBuffer($, 2) = (i + 1) * iColumnCount + j;
-            iTriBuffer($, 3) = i * iColumnCount + j + 1;
-        end
-    end
-    
-    iTriCount = size(iTriBuffer, 1);
-    
-    iIndexBuffer = [1:size(mTempGrid,1)];
+    iIndexBuffer = [1:size(meshTemp.mVertices,1)];
     
     for i = 1:length(pmListPolys)
         
         iMaskIndices = [];
         
-        for j = 1:size(mTempGrid, 1)
-            if PointInPolygon(pmListPolys(i).plPoints, mTempGrid(j,:)) then
+        for j = 1:size(meshTemp.mVertices, 1)
+            if PointInPolygon(pmListPolys(i).plPoints, meshTemp.mVertices(j,:)) then
                 iMaskIndices(1, $+1) = j; 
             end
         end
@@ -68,14 +41,14 @@ function meshOutput = PolyGrid(pmListPolys, fSpacingNom)
     end
     
     for i = 1:iTriCount
-        iTriVertsInBuffer = intersect(iTriBuffer(i,:), iIndexBuffer);
+        iTriVertsInBuffer = intersect(meshTemp.iIndices(i,:), iIndexBuffer);
         if length(iTriVertsInBuffer) == 3 then
-            iMaskedTriBuffer($+1, 1:3) = iTriBuffer(i, 1:3); 
+            iMaskedTriBuffer($+1, 1:3) = meshTemp.iIndices(i, 1:3); 
         end
     end
     
     //Fix Index Offsets Cause by vertex removal
-    for i = 1:size(mTempGrid,1)
+    for i = 1:size(meshTemp.mVertices,1)
         for j = 1:length(iIndexBuffer)
             if iIndexBuffer(j) == i then
                 iIndexLUT(i) = j;
@@ -95,7 +68,7 @@ function meshOutput = PolyGrid(pmListPolys, fSpacingNom)
     meshOutput.iIndices = iMaskedTriBuffer;
     
     for i = 1:length(iIndexBuffer)
-        meshOutput.mVertices($+1, 1:2) = mTempGrid(iIndexBuffer(i), 1:2);
+        meshOutput.mVertices($+1, 1:2) = meshTemp.mVertices(iIndexBuffer(i), 1:2);
     end
     
 endfunction

@@ -14,7 +14,7 @@ mPoints = [R * cos(theta), R * sin(theta)];
 bmMask = PolygonMask(mPoints, 'INT'); //Generate intersection mask with the filled backround
 //bmMask2 = PolygonMask(mPoints2, 'DIFF');
 
-meshGrid = PolyGrid(list(bmMask), 6);
+meshGrid = PolyGrid(list(bmMask), 2);
 
 spSurfParams = SurfaceParameters(100, 0, [0]);
 fSags = GetSags(meshGrid.mVertices, spSurfParams);
