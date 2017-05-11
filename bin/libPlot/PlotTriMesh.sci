@@ -14,6 +14,7 @@ function axOutput = PlotTriMesh(TriMesh)
             Y(1:3, $+1) = [TriMesh.mVertices(iT(1),2); TriMesh.mVertices(iT(2),2); TriMesh.mVertices(iT(3),2)];
             Z(1:3, $+1) = [TriMesh.mVertices(iT(1),3); TriMesh.mVertices(iT(2),3); TriMesh.mVertices(iT(3),3)];
         catch
+            printf('I be pausin here (in PlotTriMesh)');
             pause;
         end
     end
@@ -27,17 +28,16 @@ function axOutput = PlotTriMesh(TriMesh)
     
     plot3d(X, Y, Z);
     
+    
     eSurf = gce();
-     
-    
-    eSurf.color_flag=1; //color according to z
-    //eSurf.color_mode=-2;  //remove the facets boundary by setting color_mode to white color
-//    eSurf.color_flag=2; //color according to given colors
-//    eSurf.color_mode = -1; // put the facets boundary back by setting
-    
-//    eSurf.color_flag=3; // interpolated shading mode
-    
-    
+    //pause
+    tlistSurfData=eSurf.data;
+    tlistNewData = tlist(["3d" "x" "y" "z" "color"], tlistSurfData.x, tlistSurfData.y, tlistSurfData.z, tlistSurfData.z); 
+    eSurf.data = tlistNewData;
+    eSurf.color_mode=-1;  //remove the facets boundary
+    eSurf.color_flag=3;   // interpolated shading mode
+    eSurf.cdata_mapping = 'scaled';
+
     
     axOutput = gca();
         

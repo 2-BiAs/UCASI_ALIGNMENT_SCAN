@@ -14,10 +14,14 @@ mPoints = [R * cos(theta), R * sin(theta)];
 bmMask = PolygonMask(mPoints, 'INT'); //Generate intersection mask with the filled backround
 //bmMask2 = PolygonMask(mPoints2, 'DIFF');
 
-meshGrid = PolyGrid(list(bmMask), 3);
+meshGrid = PolyGrid(list(bmMask), 2);
 
-Z
-plot3d
+spSurfParams = SurfaceParameters(100, 0, [0]);
+fSags = GetSags(meshGrid.mVertices, spSurfParams);
+
+meshGrid.mVertices(:, 3) = fSags(:);
+
+PlotTriMesh(meshGrid);
 
 //plot(mGridPoints(:,1), mGridPoints(:,2), '*');
 //axesMain = gca();

@@ -5,16 +5,12 @@ theta = [linspace(%pi/2 - alpha, %pi/2 + alpha, 8)' ; linspace(3*%pi/2 - alpha, 
 R = 26;
 
 mPoints = [R * cos(theta), R * sin(theta)];
-//mPoints2 = mPoints ./ 2;
-
-
-//plot(mPoints(:,1), mPoints(:,2));
-//plot(mPoints2(:,1), mPoints2(:,2));
+mPoints2 = mPoints ./ 2;
 
 bmMask = PolygonMask(mPoints, 'INT'); //Generate intersection mask with the filled backround
-//bmMask2 = PolygonMask(mPoints2, 'DIFF');
+bmMask2 = PolygonMask(mPoints2, 'DIFF');
 
-meshGrid = PolyGrid(list(bmMask), 2);
+meshGrid = PolyGrid(list(bmMask), 1);
 
 spSurfParams = SurfaceParameters(100, 0, [0]);
 fSags = GetSags(meshGrid.mVertices, spSurfParams);
