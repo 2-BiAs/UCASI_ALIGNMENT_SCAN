@@ -21,7 +21,7 @@ function gridOutput = New_Grid(rectBoundingBox, fNomSpacing, sType)
     
         fWidth = abs(fGridRight - fGridLeft);
         fActualSpacingX = fWidth / iColumnCount;
-        pause
+
         for i = 1:size(X,1)
             for j = 1:size(X,2)
                 if modulo(j, 2) == 0 then
@@ -32,6 +32,7 @@ function gridOutput = New_Grid(rectBoundingBox, fNomSpacing, sType)
             end
         end
     else
+        mprintf('\n' + sType + ' grid type not supported. Abort. \n');
         pause
     end
     

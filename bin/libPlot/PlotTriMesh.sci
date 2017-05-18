@@ -28,7 +28,7 @@ function axOutput = PlotTriMesh(TriMesh)
     
     plot3d(X, Y, Z);
     
-    
+    disp('fart')
     eSurf = gce();
     //pause
     tlistSurfData=eSurf.data;
