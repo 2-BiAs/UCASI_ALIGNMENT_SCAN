@@ -1,0 +1,2 @@
+function ReadActualPoints(sFileName)
+endfunction
